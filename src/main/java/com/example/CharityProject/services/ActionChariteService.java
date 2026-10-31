@@ -16,6 +16,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+
 public class ActionChariteService {
 
     private final ActionChariteRepository actionRepository;
