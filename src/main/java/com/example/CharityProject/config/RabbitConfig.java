@@ -1,13 +1,14 @@
-package com.example.actioncharite.config; // Adaptez selon votre package exact
+package com.example.actioncharite.config; // Adaptez selon le package exact du service
 
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
+
     public static final String QUEUE_EMAIL = "notifications.email";
 
     @Bean
@@ -17,6 +18,6 @@ public class RabbitConfig {
 
     @Bean
     public MessageConverter jsonMessageConverter() {
-        return new JacksonJsonMessageConverter();
+        return new Jackson2JsonMessageConverter();
     }
 }

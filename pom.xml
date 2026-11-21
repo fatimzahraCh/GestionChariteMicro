@@ -1,28 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-<!--	<parent>-->
-<!--		<groupId>org.springframework.boot</groupId>-->
-<!--		<artifactId>spring-boot-starter-parent</artifactId>-->
-<!--		<version>3.4.0</version>-->
-<!--		<relativePath/>-->
-<!--	</parent>-->
-
-
-<!--	<groupId>com.example</groupId>-->
-<!--	<artifactId>CharityProject</artifactId>-->
-<!--	<version>0.0.1-SNAPSHOT</version>-->
-<!--	<name>CharityProject</name>-->
-<!--	<description>Projet de charite EMSI</description>-->
-
-<!--	<properties>-->
-<!--		<java.version>17</java.version>-->
-<!--		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
-<!--		<spring-cloud.version>2024.0.0</spring-cloud.version>-->
-<!--		<lombok.version>1.18.34</lombok.version>-->
-<!--	</properties>-->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -33,19 +14,21 @@
 	<groupId>com.example</groupId>
 	<artifactId>CharityProject</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <name>CharityProject</name>
+	<packaging>pom</packaging>
+	<name>CharityProject</name>
 	<description>Projet de charite EMSI</description>
-    <modules>
-        <module>notification-service</module>
-    </modules>
 
-    <properties>
+	<modules>
+		<module>notification-service</module>
+	</modules>
+
+	<properties>
 		<java.version>17</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring-cloud.version>2023.0.3</spring-cloud.version>
 		<lombok.version>1.18.34</lombok.version>
 	</properties>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -104,10 +87,6 @@
 			<artifactId>thymeleaf-layout-dialect</artifactId>
 			<version>3.2.1</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.cloud</groupId>-->
-<!--			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
