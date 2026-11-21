@@ -40,4 +40,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> introuvable(RessourceIntrouvableException ex) {
         return ResponseEntity.status(404).body(ex.getMessage());
     }
+//jalon6 Service externe indisponible lors d'une vérification critique (repli strict -> HTTP 503)
+    @ExceptionHandler(ServiceExterneIndisponibleException.class)
+    public ResponseEntity<String> serviceExterneIndisponible(ServiceExterneIndisponibleException ex) {
+        return ResponseEntity.status(503).body(ex.getMessage());
+    }
 }
