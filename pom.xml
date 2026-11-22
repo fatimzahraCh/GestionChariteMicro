@@ -20,6 +20,14 @@
 
 	<modules>
 		<module>notification-service</module>
+		<module>eureka-server</module>
+		<module>config-server</module>
+		<module>gateway-source</module>
+		<module>don-service</module>
+		<module>user-service</module>
+		<module>actioncharite-service</module>
+		<module>organisation-service</module>
+		<module>participation-service</module>
 	</modules>
 
 	<properties>

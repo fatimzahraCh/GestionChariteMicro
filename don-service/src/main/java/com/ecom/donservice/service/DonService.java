@@ -1,6 +1,7 @@
 package com.ecom.donservice.service;
 
 import com.ecom.donservice.dto.DonDtoFull;
+import com.ecom.donservice.dto.NotificationEmailDto;
 import com.ecom.donservice.entity.Don;
 import com.ecom.donservice.entity.StatutDon;
 import com.ecom.donservice.exception.RessourceIntrouvableException;
@@ -18,11 +19,14 @@ public class DonService {
 
     private final DonRepository donRepository;
     private final ResilientRequests resilientRequests;
+    private final NotificationProducer notificationProducer;
 
     public DonService(DonRepository donRepository,
-                      ResilientRequests resilientRequests) {
+                      ResilientRequests resilientRequests,
+                      NotificationProducer notificationProducer) {
         this.donRepository = donRepository;
         this.resilientRequests = resilientRequests;
+        this.notificationProducer = notificationProducer;
     }
 
     public Don createDon(Don don, String idempotencyKey) {
@@ -56,7 +60,22 @@ public class DonService {
         // 4. Finaliser et sauvegarder en base locale
         don.setDateDon(new Date());
         don.setStatut(StatutDon.EN_ATTENTE);
-        return donRepository.save(don);
+        Don savedDon = donRepository.save(don);
+
+        // 5. Envoyer la notification asynchrone via RabbitMQ
+        if (user.getEmail() != null && !user.getEmail().isBlank()) {
+            NotificationEmailDto notification = new NotificationEmailDto(
+                    user.getEmail(),
+                    "Confirmation de votre don #" + savedDon.getId(),
+                    "Bonjour " + user.getName()
+                            + ", votre don d'un montant de " + savedDon.getMontant()
+                            + " pour l'action \"" + action.getTitre()
+                            + "\" a bien été enregistré."
+            );
+            notificationProducer.envoyerNotification(notification);
+        }
+
+        return savedDon;
     }
 
     public Don getDonById(Long id) {
@@ -80,13 +99,17 @@ public class DonService {
 
         // 3. Enrichir avec l'utilisateur via le repli tolérant (null si indisponible)
         UserDto user = resilientRequests.getUserByIdLecture(don.getUserId());
-        dto.setUserName(user.getName());
-        dto.setUserEmail(user.getEmail());
+        if (user != null) {
+            dto.setUserName(user.getName());
+            dto.setUserEmail(user.getEmail());
+        }
 
         // 4. Enrichir avec l'action via le repli tolérant (null si indisponible)
         ActionDto action = resilientRequests.getActionByIdLecture(don.getActionId());
-        dto.setActionTitre(action.getTitre());
-        dto.setActionStatut(action.getStatut());
+        if (action != null) {
+            dto.setActionTitre(action.getTitre());
+            dto.setActionStatut(action.getStatut());
+        }
 
         return dto;
     }
